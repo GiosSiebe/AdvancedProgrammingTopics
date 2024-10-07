@@ -1,0 +1,5 @@
+docker run --name MysqlActivity -p 3307:3306 -e MYSQL_ROOT_PASSWORD=abc123 -d mysql
+
+Already made:
+docker start MysqlActivity
+http://localhost:8082/api/activity

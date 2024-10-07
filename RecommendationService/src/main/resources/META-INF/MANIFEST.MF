@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: fact.it.recommendationservice.RecommendationServiceApplicati
+ on
+

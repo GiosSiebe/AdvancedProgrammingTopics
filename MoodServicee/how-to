@@ -1,0 +1,6 @@
+Run DB: docker run --name MongoMood  -p 27017:27017 -d mongo
+Stop alle containers: docker stop $(docker ps -q)
+
+Already made:
+docker start MongoMood
+http://localhost:8080/api/mood/all

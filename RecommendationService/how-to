@@ -1,0 +1,1 @@
+docker run --name MysqlRecommendation -p 3308:3306 -e MYSQL_ROOT_PASSWORD=abc123 -d mysql
