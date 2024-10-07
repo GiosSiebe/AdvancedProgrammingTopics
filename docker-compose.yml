@@ -1,80 +1,90 @@
 version: '3.8'
 
 services:
-  activity-service:
-    build:
-      context: ./ActivityService
+  mongo-mood:
+    image: mongo:latest
     ports:
-      - "8082:8082"
-    environment:
-      MYSQL_DB_USERNAME: root
-      MYSQL_DB_PASSWORD: abc123
-      MYSQL_DB_HOST: mysql-activity
-      MYSQL_DB_PORT: 3307  # Dit moet overeenkomen met mysql-activity service
+      - 27017:27017
+    volumes:
+      - mongodb_mood_data:/data/db
 
-  mood-service:
-    build:
-      context: ./MoodServicee  # Let op: controleer of deze naam correct is.
+  mongo-user:
+    image: mongo:latest
     ports:
-      - "8080:8080"
-    environment:
-      MONGODB_HOST: mongo-mood
-      MONGODB_PORT: 27017
-
-  recommendation-service:
-    build:
-      context: ./RecommendationService
-    ports:
-      - "8081:8081"
-    environment:
-      MYSQL_DB_USERNAME: root
-      MYSQL_DB_PASSWORD: abc123
-      MYSQL_DB_HOST: mysql-recommendation
-      MYSQL_DB_PORT: 3308  # Dit moet overeenkomen met mysql-recommendation service
-
-  user-service:
-    build:
-      context: ./UserService
-    ports:
-      - "8083:8083"
-    environment:
-      MONGODB_HOST: mongo-user
-      MONGODB_PORT: 27017  # Dit moet consistent zijn met de MongoDB-service
+      - 27018:27017  # Changed to avoid confusion
+    volumes:
+      - mongodb_user_data:/data/db  # Fixed typo
 
   mysql-activity:
     image: mysql:latest
     ports:
-      - "3307:3306"
+      - 3307:3306
     volumes:
       - mysql_activity_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: abc123
 
-  mongo-mood:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_mood_data:/data/db
-
   mysql-recommendation:
     image: mysql:latest
     ports:
-      - "3308:3306"  # Expose poort 3306 voor de buitenwereld, maar intern draait het op 3306
+      - 3308:3306
     volumes:
-      - mysql_recommendation_data:/var/lib/mysql
+      - mysql_recommendation_data:/var/lib/mysql  # Fixed typo
     environment:
       MYSQL_ROOT_PASSWORD: abc123
 
-  mongo-user:
-    image: mongo:latest
+  activity-service:
+    depends_on:
+      - mysql-activity
+    image: siebegios/activityservice
     ports:
-      - "28018:27017"  # Dit is nu consistent met de MongoDB-service
-    volumes:
-      - mongodb_user_data:/data/db
+      - 8082:8082
+    environment:
+      MYSQL_DB_USERNAME: root
+      MYSQL_DB_PASSWORD: abc123
+      MYSQL_DB_HOST: mysql-activity
+      MYSQL_DB_PORT: 3306  # Use the internal port
+
+  mood-service:
+    depends_on:
+      - mongo-mood
+    image: siebegios/mood-service
+    ports:
+      - 8080:8080
+    environment:
+      MONGODB_PORT: 27017
+      MONGODB_HOST: mongo-mood
+
+  user-service:
+    depends_on:
+      - mongo-user
+    image: siebegios/user-service
+    ports:
+      - 8083:8083
+    environment:
+      MONGODB_PORT: 27017  # Use the internal port
+      MONGODB_HOST: mongo-user
+
+  recommendation-service:
+    depends_on:
+      - activity-service
+      - user-service
+      - mood-service
+      - mysql-recommendation
+    image: siebegios/recommendation-service
+    ports:
+      - 8081:8081
+    environment:
+      ACTIVITY_SERVICE_BASEURL: http://activity-service:8082  # Use the full URL for clarity
+      MOOD_SERVICE_BASEURL: http://mood-service:8080
+      USER_SERVICE_BASEURL: http://user-service:8083
+      MYSQL_DB_USERNAME: root
+      MYSQL_DB_PASSWORD: abc123
+      MYSQL_DB_HOST: mysql-recommendation
+      MYSQL_DB_PORT: 3306  # Use the internal port
 
 volumes:
-  mysql_activity_data:
-  mongodb_mood_data:
-  mysql_recommendation_data:
   mongodb_user_data:
+  mongodb_mood_data:
+  mysql_activity_data:
+  mysql_recommendation_data:
