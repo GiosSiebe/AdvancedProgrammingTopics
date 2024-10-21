@@ -26,8 +26,8 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./activity-service
-        run: mvn package -DskipTests
+        working-directory: ./activity-service  # Pas dit aan indien nodig
+        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
@@ -54,8 +54,8 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./mood-service
-        run: mvn package -DskipTests
+        working-directory: ./mood-service  # Pas dit aan indien nodig
+        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
@@ -82,8 +82,8 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./recommendation-service
-        run: mvn package -DskipTests
+        working-directory: ./recommendation-service  # Pas dit aan indien nodig
+        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
@@ -110,8 +110,8 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./user-service
-        run: mvn package -DskipTests
+        working-directory: ./user-service  # Pas dit aan indien nodig
+        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
