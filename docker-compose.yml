@@ -83,9 +83,9 @@ services:
     ports:
       - 8081:8081
     environment:
-      ACTIVITY_SERVICE_BASEURL: http://activity-service:8082  # Gebruik interne Docker netwerk service naam
-      MOOD_SERVICE_BASEURL: http://mood-service:8080
-      USER_SERVICE_BASEURL: http://user-service:8083
+      ACTIVITY_SERVICE_BASEURL: activity-service:8082  # Gebruik interne Docker netwerk service naam
+      MOOD_SERVICE_BASEURL: mood-service:8080
+      USER_SERVICE_BASEURL: user-service:8083
       MYSQL_DB_USERNAME: root
       MYSQL_DB_PASSWORD: abc123
       MYSQL_DB_HOST: mysql-recommendation  # Gebruik service naam van MySQL
