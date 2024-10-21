@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:  # Hiermee kun je de workflow handmatig starten
 
 jobs:
   # ActivityService build, test, and Docker deployment
@@ -65,7 +66,7 @@ jobs:
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/mood-service:latest
 
-  # RecommendationService build, test, and Docker deploymentt
+  # RecommendationService build, test, and Docker deployment
   recommendationservice:
     runs-on: ubuntu-latest
     name: Java 17 build, test, deliver recommendation-service container
