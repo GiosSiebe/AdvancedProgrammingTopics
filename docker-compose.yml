@@ -41,7 +41,7 @@ services:
   activity-service:
     depends_on:
       - mysql-activity
-    image: siebegios/activityservice
+    image: siebegios/activity-service
     ports:
       - 8082:8082
     environment:
