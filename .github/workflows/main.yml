@@ -26,14 +26,14 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./activity-service  # Pas dit aan indien nodig
-        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
+        working-directory: ./ActivityService  # Correcte directory naam
+        run: mvn clean package -DskipTests
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/activity-service:latest ./activity-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/activity-service:latest ./ActivityService
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/activity-service:latest
@@ -54,14 +54,14 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./mood-service  # Pas dit aan indien nodig
-        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
+        working-directory: ./MoodService  # Correcte directory naam
+        run: mvn clean package -DskipTests
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/mood-service:latest ./mood-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/mood-service:latest ./MoodService
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/mood-service:latest
@@ -82,14 +82,14 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./recommendation-service  # Pas dit aan indien nodig
-        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
+        working-directory: ./RecommendationService  # Correcte directory naam
+        run: mvn clean package -DskipTests
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/recommendation-service:latest ./recommendation-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/recommendation-service:latest ./RecommendationService
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/recommendation-service:latest
@@ -110,14 +110,14 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./user-service  # Pas dit aan indien nodig
-        run: mvn clean package -DskipTests  # Verander de Maven-commando's indien nodig
+        working-directory: ./UserService  # Correcte directory naam
+        run: mvn clean package -DskipTests
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/user-service:latest ./user-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/user-service:latest ./UserService
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/user-service:latest
