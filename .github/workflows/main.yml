@@ -65,7 +65,7 @@ jobs:
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_USER }}/mood-service:latest
 
-  # RecommendationService build, test, and Docker deployment
+  # RecommendationService build, test, and Docker deploymentt
   recommendationservice:
     runs-on: ubuntu-latest
     name: Java 17 build, test, deliver recommendation-service container
