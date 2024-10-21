@@ -1,13 +1,18 @@
-#NOG AANPASSEN
+name: Build and Deliver Containers
 
-name: Build and deliver containers
-
-on: push
+on:
+  push:
+    branches:
+      - main  # Pas dit aan op basis van je branch
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  productservice:
+  # ActivityService build, test, and Docker deployment
+  activityservice:
     runs-on: ubuntu-latest
-    name: Java 17 build, test, deliver product-service container
+    name: Java 17 build, test, deliver activity-service container
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -20,20 +25,22 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./product-service
+        working-directory: ./activity-service
         run: mvn package -DskipTests
 
       - name: Docker login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/product-service:latest ./product-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/activity-service:latest ./activity-service
 
       - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/product-service:latest
-  inventoryservice:
+        run: docker push ${{ secrets.DOCKER_USER }}/activity-service:latest
+
+  # MoodService build, test, and Docker deployment
+  moodservice:
     runs-on: ubuntu-latest
-    name: Java 17 build, test, deliver inventory-service container
+    name: Java 17 build, test, deliver mood-service container
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -46,20 +53,22 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./inventory-service
+        working-directory: ./mood-service
         run: mvn package -DskipTests
 
       - name: Docker login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/inventory-service:latest ./inventory-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/mood-service:latest ./mood-service
 
       - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/inventory-service:latest
-  orderservice:
+        run: docker push ${{ secrets.DOCKER_USER }}/mood-service:latest
+
+  # RecommendationService build, test, and Docker deployment
+  recommendationservice:
     runs-on: ubuntu-latest
-    name: Java 17 build, test, deliver order-service container
+    name: Java 17 build, test, deliver recommendation-service container
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -72,14 +81,42 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./order-service
+        working-directory: ./recommendation-service
         run: mvn package -DskipTests
 
       - name: Docker login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/order-service:latest ./order-service
+        run: docker build -t ${{ secrets.DOCKER_USER }}/recommendation-service:latest ./recommendation-service
 
       - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/order-service:latest
+        run: docker push ${{ secrets.DOCKER_USER }}/recommendation-service:latest
+
+  # UserService build, test, and Docker deployment
+  userservice:
+    runs-on: ubuntu-latest
+    name: Java 17 build, test, deliver user-service container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          cache: maven
+          distribution: adopt
+
+      - name: Build, test and package project
+        working-directory: ./user-service
+        run: mvn package -DskipTests
+
+      - name: Docker login
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+
+      - name: Docker Build
+        run: docker build -t ${{ secrets.DOCKER_USER }}/user-service:latest ./user-service
+
+      - name: Upload container to Docker Hub with Push
+        run: docker push ${{ secrets.DOCKER_USER }}/user-service:latest

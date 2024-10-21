@@ -1,38 +1,43 @@
 version: '3.8'
 
 services:
+  # MongoDB voor MoodService
   mongo-mood:
     image: mongo:latest
     ports:
-      - 27017:27017
+      - 27017:27017  # Externe toegang op poort 27017
     volumes:
       - mongodb_mood_data:/data/db
 
+  # MongoDB voor UserService
   mongo-user:
     image: mongo:latest
     ports:
-      - 27018:27017  # Changed to avoid confusion
+      - 27018:27017  # Zorgt voor geen conflict met mongo-mood
     volumes:
-      - mongodb_user_data:/data/db  # Fixed typo
+      - mongodb_user_data:/data/db
 
+  # MySQL voor ActivityService
   mysql-activity:
     image: mysql:latest
     ports:
-      - 3307:3306
+      - 3307:3306  # Externe toegang op poort 3307
     volumes:
       - mysql_activity_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: abc123
 
+  # MySQL voor RecommendationService
   mysql-recommendation:
     image: mysql:latest
     ports:
-      - 3308:3306
+      - 3308:3306  # Externe toegang op poort 3308
     volumes:
-      - mysql_recommendation_data:/var/lib/mysql  # Fixed typo
+      - mysql_recommendation_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: abc123
 
+  # ActivityService
   activity-service:
     depends_on:
       - mysql-activity
@@ -42,9 +47,10 @@ services:
     environment:
       MYSQL_DB_USERNAME: root
       MYSQL_DB_PASSWORD: abc123
-      MYSQL_DB_HOST: mysql-activity
-      MYSQL_DB_PORT: 3306  # Use the internal port
+      MYSQL_DB_HOST: mysql-activity  # Intern gebruik van de MySQL service naam
+      MYSQL_DB_PORT: 3306  # Intern poort gebruik
 
+  # MoodService
   mood-service:
     depends_on:
       - mongo-mood
@@ -52,9 +58,10 @@ services:
     ports:
       - 8080:8080
     environment:
-      MONGODB_PORT: 27017
-      MONGODB_HOST: mongo-mood
+      MONGO_DB_HOST: mongo-mood  # Gebruik service naam van Mongo
+      MONGO_DB_PORT: 27017  # Intern gebruik van MongoDB poort
 
+  # UserService
   user-service:
     depends_on:
       - mongo-user
@@ -62,9 +69,10 @@ services:
     ports:
       - 8083:8083
     environment:
-      MONGODB_PORT: 27017  # Use the internal port
-      MONGODB_HOST: mongo-user
+      MONGO_DB_HOST: mongo-user  # Gebruik service naam van Mongo
+      MONGO_DB_PORT: 27017  # Intern gebruik van MongoDB poort
 
+  # RecommendationService
   recommendation-service:
     depends_on:
       - activity-service
@@ -75,13 +83,13 @@ services:
     ports:
       - 8081:8081
     environment:
-      ACTIVITY_SERVICE_BASEURL: http://activity-service:8082  # Use the full URL for clarity
+      ACTIVITY_SERVICE_BASEURL: http://activity-service:8082  # Gebruik interne Docker netwerk service naam
       MOOD_SERVICE_BASEURL: http://mood-service:8080
       USER_SERVICE_BASEURL: http://user-service:8083
       MYSQL_DB_USERNAME: root
       MYSQL_DB_PASSWORD: abc123
-      MYSQL_DB_HOST: mysql-recommendation
-      MYSQL_DB_PORT: 3306  # Use the internal port
+      MYSQL_DB_HOST: mysql-recommendation  # Gebruik service naam van MySQL
+      MYSQL_DB_PORT: 3306  # Intern poort gebruik
 
 volumes:
   mongodb_user_data:
