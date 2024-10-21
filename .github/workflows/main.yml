@@ -26,7 +26,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./ActivityService  # Correcte directory naam
+        working-directory: ActivityService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -54,7 +54,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./MoodService  # Correcte directory naam
+        working-directory: MoodServicee  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -82,7 +82,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./RecommendationService  # Correcte directory naam
+        working-directory: RecommendationService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -110,7 +110,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ./UserService  # Correcte directory naam
+        working-directory: UserService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
