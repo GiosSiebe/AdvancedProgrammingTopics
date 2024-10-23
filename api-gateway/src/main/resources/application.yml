@@ -1,0 +1,53 @@
+server:
+  port: 8083
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: INFO
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+    reactor.netty: INFO
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: recommendation-service
+          uri: http://${RECOMMENDATION_SERVICE_BASEURL:localhost:8081}
+          predicates:
+            - Path=/api/recommendations/{userid}
+            - Method=GET
+          filters:
+            - SetPath=/api/recommendations/${userid}
+
+        - id: mood-service
+          uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
+          predicates:
+            - Path=/api/mood
+            - Method=POST
+          filters:
+            - SetPath=/api/mood
+
+        - id: activity-service
+          uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
+          predicates:
+            - Path=/api/activity
+            - Method=POST
+          filters:
+            - SetPath=/api/activity
+
+        - id: user-service
+          uri: http://${USER_SERVICE_BASEURL:localhost:8084}
+          predicates:
+            - Path=/api/user
+            - Method=GET
+          filters:
+            - SetPath=/api/user
+
+        - id: user-service-post
+          uri: http://${USER_SERVICE_BASEURL:localhost:8084}
+          predicates:
+            - Path=/api/user
+            - Method=POST
+          filters:
+            - SetPath=/api/user
