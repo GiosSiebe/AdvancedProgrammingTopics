@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # MongoDB voor MoodService
+  # MongoDB for MoodService
   mongo-mood:
     image: mongo:latest
     ports:
@@ -9,7 +9,7 @@ services:
     volumes:
       - mongodb_mood_data:/data/db
 
-  # MongoDB voor UserService
+  # MongoDB for UserService
   mongo-user:
     image: mongo:latest
     ports:
@@ -17,7 +17,7 @@ services:
     volumes:
       - mongodb_user_data:/data/db
 
-  # MySQL voor ActivityService
+  # MySQL for ActivityService
   mysql-activity:
     image: mysql:latest
     ports:
@@ -27,7 +27,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: abc123
 
-  # MySQL voor RecommendationService
+  # MySQL for RecommendationService
   mysql-recommendation:
     image: mysql:latest
     ports:
@@ -95,7 +95,7 @@ services:
   api-gateway:
     image: siebegios/api-gateway
     ports:
-      - 8085:8080  # Externe toegang op poort 8085
+      - 8085:8080  # External access on port 8085
     depends_on:
       - activity-service
       - mood-service
@@ -117,4 +117,3 @@ volumes:
   mongodb_mood_data:
   mysql_activity_data:
   mysql_recommendation_data:
-
