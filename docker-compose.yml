@@ -95,7 +95,7 @@ services:
   api-gateway:
     image: siebegios/api-gateway
     ports:
-      - 8085:8080  # External access on port 8085
+      - 8085:8085  # External access on port 8085
     depends_on:
       - activity-service
       - mood-service
