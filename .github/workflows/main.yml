@@ -137,7 +137,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ApiGateway  # Correcte directory naam
+        working-directory: api-gateway  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
