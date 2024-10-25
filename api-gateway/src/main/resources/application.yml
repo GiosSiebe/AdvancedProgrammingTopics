@@ -8,6 +8,7 @@ logging:
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     reactor.netty: INFO
     org.springframework.security: TRACE
+
 spring:
   security:
     oauth2:
@@ -21,9 +22,11 @@ spring:
         jwt:
           issuer-uri: https://accounts.google.com
           jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+
   cloud:
     gateway:
       routes:
+        # Recommendation Service
         - id: recommendation-service
           uri: http://${RECOMMENDATION_SERVICE_BASEURL:localhost:8081}
           predicates:
@@ -32,7 +35,16 @@ spring:
           filters:
             - SetPath=/api/recommendations/${userid}
 
-        - id: mood-service
+        # Mood Service
+        - id: mood-service-get
+          uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
+          predicates:
+            - Path=/api/mood
+            - Method=GET
+          filters:
+            - SetPath=/api/mood/all
+
+        - id: mood-service-post
           uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
           predicates:
             - Path=/api/mood
@@ -40,7 +52,32 @@ spring:
           filters:
             - SetPath=/api/mood
 
-        - id: activity-service
+        - id: mood-service-put
+          uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
+          predicates:
+            - Path=/api/mood/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/mood/${id}
+
+        - id: mood-service-delete
+          uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
+          predicates:
+            - Path=/api/mood/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/mood/${id}
+
+        # Activity Service
+        - id: activity-service-get
+          uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
+          predicates:
+            - Path=/api/activity
+            - Method=GET
+          filters:
+            - SetPath=/api/activity
+
+        - id: activity-service-post
           uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
           predicates:
             - Path=/api/activity
@@ -48,7 +85,24 @@ spring:
           filters:
             - SetPath=/api/activity
 
-        - id: user-service
+        - id: activity-service-put
+          uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
+          predicates:
+            - Path=/api/activity/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/activity/${id}
+
+        - id: activity-service-delete
+          uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
+          predicates:
+            - Path=/api/activity/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/activity/${id}
+
+        # User Service
+        - id: user-service-get
           uri: http://${USER_SERVICE_BASEURL:localhost:8083}
           predicates:
             - Path=/api/user
@@ -63,3 +117,19 @@ spring:
             - Method=POST
           filters:
             - SetPath=/api/user
+
+        - id: user-service-put
+          uri: http://${USER_SERVICE_BASEURL:localhost:8083}
+          predicates:
+            - Path=/api/user/{id}
+            - Method=PUT
+          filters:
+            - SetPath=/api/user/${id}
+
+        - id: user-service-delete
+          uri: http://${USER_SERVICE_BASEURL:localhost:8083}
+          predicates:
+            - Path=/api/user/{id}
+            - Method=DELETE
+          filters:
+            - SetPath=/api/user/${id}
