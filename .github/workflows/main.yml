@@ -151,34 +151,34 @@ jobs:
         run: docker push ${{ secrets.DOCKER_NAME }}/api-gateway:latest
 
   frontend:
-  runs-on: ubuntu-latest
-  name: Build, test, and deliver frontend container
-  steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    name: Build, test, and deliver frontend container
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18  # Use a suitable Node.js version for your project
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Use a suitable Node.js version for your project
 
-    - name: Install dependencies
-      working-directory: frontend  # Adjust to the correct frontend directory path
-      run: npm install
+      - name: Install dependencies
+        working-directory: frontend  # Adjust to the correct frontend directory path
+        run: npm install
 
-    - name: Run tests
-      working-directory: frontend
-      run: npm test -- --watchAll=false
+      - name: Run tests
+        working-directory: frontend
+        run: npm test -- --watchAll=false
 
-    - name: Build frontend
-      working-directory: frontend
-      run: npm run build
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
 
-    - name: Docker login
-      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      - name: Docker login
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
-    - name: Docker Build
-      run: docker build -t ${{ secrets.DOCKER_NAME }}/frontend:latest ./frontend
+      - name: Docker Build
+        run: docker build -t ${{ secrets.DOCKER_NAME }}/frontend:latest ./frontend
 
-    - name: Push frontend container to Docker Hub
-      run: docker push ${{ secrets.DOCKER_NAME }}/frontend:latest
+      - name: Push frontend container to Docker Hub
+        run: docker push ${{ secrets.DOCKER_NAME }}/frontend:latest
