@@ -112,6 +112,16 @@ services:
       ACTIVITY_SERVICE_BASEURL: activity-service:8082
       USER_SERVICE_BASEURL: user-service:8083
 
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend  # Path to your frontend Dockerfile
+      dockerfile: Dockerfile  # Name of your Dockerfile
+    ports:
+      - 3000:3000  # Expose port 3000 for the frontend
+    depends_on:
+      - api-gateway  # Ensure API Gateway is up before the frontend
+
 volumes:
   mongodb_user_data:
   mongodb_mood_data:
