@@ -33,7 +33,7 @@ spring:
             - Path=/api/recommendations/{userid}
             - Method=GET
           filters:
-            - SetPath=/api/recommendations/${userid}
+            - SetPath=/api/recommendations/{userid}
 
         # Mood Service
         - id: mood-service-get
@@ -58,7 +58,7 @@ spring:
             - Path=/api/mood/{id}
             - Method=PUT
           filters:
-            - SetPath=/api/mood/${id}
+            - SetPath=/api/mood/{id}
 
         - id: mood-service-delete
           uri: http://${MOOD_SERVICE_BASEURL:localhost:8080}
@@ -66,7 +66,7 @@ spring:
             - Path=/api/mood/{id}
             - Method=DELETE
           filters:
-            - SetPath=/api/mood/${id}
+            - SetPath=/api/mood/{id}
 
         # Activity Service
         - id: activity-service-get
@@ -91,7 +91,7 @@ spring:
             - Path=/api/activity/{id}
             - Method=PUT
           filters:
-            - SetPath=/api/activity/${id}
+            - SetPath=/api/activity/{id}
 
         - id: activity-service-delete
           uri: http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}
@@ -99,7 +99,7 @@ spring:
             - Path=/api/activity/{id}
             - Method=DELETE
           filters:
-            - SetPath=/api/activity/${id}
+            - SetPath=/api/activity/{id}
 
         # User Service
         - id: user-service-get
@@ -116,7 +116,7 @@ spring:
             - Path=/api/user/{id}
             - Method=GET
           filters:
-            - SetPath=/api/user/${id}
+            - SetPath=/api/user/{id}
 
         - id: user-service-post
           uri: http://${USER_SERVICE_BASEURL:localhost:8083}
@@ -132,7 +132,7 @@ spring:
             - Path=/api/user/{id}
             - Method=PUT
           filters:
-            - SetPath=/api/user/${id}
+            - SetPath=/api/user/{id}
 
         - id: user-service-delete
           uri: http://${USER_SERVICE_BASEURL:localhost:8083}
@@ -140,4 +140,4 @@ spring:
             - Path=/api/user/{id}
             - Method=DELETE
           filters:
-            - SetPath=/api/user/${id}
+            - SetPath=/api/user/{id}

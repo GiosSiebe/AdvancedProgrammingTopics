@@ -22,7 +22,7 @@ const getAccessToken = async (code) => {
   const formData = new URLSearchParams();
   formData.append("code", code);  // Authorization code
   formData.append("client_id", process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID);  // Your client ID
-  formData.append("client_secret", clientSecret);  // Your client secret
+  formData.append("client_secret", process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET);  // Your client secret
   formData.append("redirect_uri", redirectUri);  // Your redirect URI
   formData.append("grant_type", "authorization_code");  // Grant type
 
