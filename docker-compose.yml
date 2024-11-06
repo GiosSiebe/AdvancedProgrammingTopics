@@ -124,6 +124,10 @@ services:
       - 3000:3000  # Expose port 3000 for the frontend
     depends_on:
       - api-gateway  # Ensure API Gateway is up before the frontend
+    environment:
+      REACT_APP_GOOGLE_OAUTH_CLIENT_ID: ${REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+      REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET: ${REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET}
+
 
 volumes:
   mongodb_user_data:
