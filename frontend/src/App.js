@@ -41,10 +41,16 @@ function App() {
   const [recommendations, setRecommendations] = useState(null);
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [mood, setMood] = useState("");  // Add mood state
 
   const handleGetRecommendations = async () => {
     if (!accessToken) {
       setError("You must be logged in first.");
+      return;
+    }
+
+    if (!mood) {
+      setError("Please enter a mood.");
       return;
     }
 
@@ -74,7 +80,7 @@ function App() {
       const recommendationsResponse = await axios.get(
         `http://localhost:8085/api/recommendations/${userId}`,
         {
-          params: { mood },
+          params: { mood },  // Send mood parameter
           headers: {
             Authorization: `Bearer ${accessToken}`,  // Use the access token for the recommendations API
           },
@@ -128,6 +134,16 @@ function App() {
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter your username"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">Mood</label>
+              <input
+                type="text"
+                value={mood}
+                onChange={(e) => setMood(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Enter your mood"
               />
             </div>
             <button
