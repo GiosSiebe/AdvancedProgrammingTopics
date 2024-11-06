@@ -18,7 +18,7 @@ function App() {
 
       // Fetch recommendations using the user ID
       const recommendationsResponse = await axios.get(
-        `http://localhost:8085/api/recommendations/${userId}`
+        `http://recommendation-service:8085/api/recommendations/${userId}`
       );
 
       setRecommendations(recommendationsResponse.data);  // Set recommendations from API response
