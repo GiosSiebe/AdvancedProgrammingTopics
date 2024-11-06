@@ -19,9 +19,7 @@ public class MoodService {
 
     public List<MoodResponse> getAllMoodsByTimestamp(LocalDateTime timestamp) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("timestamp", timestamp)
-                        .build())
+                .uri("http://"+moodServiceBaseUrl+"/api/mood?timestamp=", timestamp)
                 .retrieve()
                 .bodyToFlux(MoodResponse.class)
                 .collectList()
@@ -30,7 +28,7 @@ public class MoodService {
 
     public List<MoodResponse> getAllMoods() {
         return webClient.get()
-                .uri("/all")
+                .uri("http://"+moodServiceBaseUrl+"/api/mood/all")
                 .retrieve()
                 .bodyToFlux(MoodResponse.class)
                 .collectList()
