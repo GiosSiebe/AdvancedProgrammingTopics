@@ -8,17 +8,8 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 
-COPY .env .env
-
 # Copy the rest of the app's files
 COPY . .
-
-# Accept build arguments and set them as environment variables
-ARG REACT_APP_GOOGLE_OAUTH_CLIENT_ID
-ARG REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET
-
-ENV REACT_APP_GOOGLE_OAUTH_CLIENT_ID=$REACT_APP_GOOGLE_OAUTH_CLIENT_ID
-ENV REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET=$REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET
 
 # Build the app
 RUN npm run build
