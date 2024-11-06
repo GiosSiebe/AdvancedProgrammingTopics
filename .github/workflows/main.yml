@@ -166,6 +166,11 @@ jobs:
         working-directory: frontend  # Adjust to the correct frontend directory path
         run: npm install
 
+      - name: Set environment variables for build
+      run: |
+        echo "REACT_APP_GOOGLE_OAUTH_CLIENT_ID=${{ secrets.REACT_APP_GOOGLE_OAUTH_CLIENT_ID }}" >> $GITHUB_ENV
+        echo "REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET=${{ secrets.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET }}" >> $GITHUB_ENV
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build
