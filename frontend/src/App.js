@@ -16,7 +16,6 @@ const authenticateWithGoogle = async () => {
 // Function to fetch access token from the backend
 const getAccessToken = async (code) => {
   const tokenUrl = "https://oauth2.googleapis.com/token";
-  const clientSecret = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET;  // Your client secret
   const redirectUri = "http://localhost:3000/oauth2/callback";  // Your redirect URI
 
   const formData = new URLSearchParams();
