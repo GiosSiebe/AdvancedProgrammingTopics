@@ -38,7 +38,6 @@ const getAccessToken = async (code) => {
 // Main App function
 function App() {
   const [username, setUsername] = useState("");
-  const [mood, setMood] = useState("");
   const [recommendations, setRecommendations] = useState(null);
   const [error, setError] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
