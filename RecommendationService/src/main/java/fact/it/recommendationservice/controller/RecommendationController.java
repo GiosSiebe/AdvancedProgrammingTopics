@@ -15,9 +15,9 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<RecommendationResponse> getRecommendations(@PathVariable String userId) {
+    public List<RecommendationResponse> getRecommendations(@PathVariable("id") String userId) {
         return recommendationService.getRecommendationsByUserId(userId);
     }
 }

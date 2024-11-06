@@ -17,15 +17,6 @@ public class MoodController {
 
     private final MoodService moodService;
 
-
-    // Get all mood entries based on timestamp
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<MoodResponse> getAllMoodsByTimestamp(@RequestParam("timestamp") LocalDateTime timestamp) {
-        return moodService.getAllMoodsByTimestamp(timestamp);
-    }
-
-
     // Get all mood entries
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)

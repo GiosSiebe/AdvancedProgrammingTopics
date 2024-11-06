@@ -42,19 +42,7 @@ public class UserService {
     }
 
     public boolean userExists(String userId) {
-        try {
-            webClient.get()
-                    .uri("http://"+userServiceBaseUrl+"/api/user/{userId}", userId)
-                    .retrieve()
-                    .bodyToMono(UserResponse.class) // Still use Mono to retrieve user info
-                    .block(); // Blocking call here to return a boolean
-
-            return true; // User exists
-        } catch (WebClientResponseException ex) {
-            if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-                return false; // User does not exist
-            }
-            throw new RuntimeException("Error occurred while checking user existence", ex); // Propagate other errors
-        }
+        return getUserById(userId) != null; // Reusing getUserById to check if user exists
     }
+
 }

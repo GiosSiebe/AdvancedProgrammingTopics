@@ -29,9 +29,12 @@ public class RecommendationService {
     @Value("${activityservice.baseurl}")
     private String activityServiceBaseUrl;
 
+    @Value("${moodservice.baseurl}")
+    private String moodServiceBaseUrl;
+
     public List<RecommendationResponse> getRecommendationsByUserId(String userId) {
         // Check if user exists
-        if (userService.userExists(userId)) {
+        if (!userService.userExists(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
 
@@ -40,7 +43,7 @@ public class RecommendationService {
         try {
             // Fetch all moods from the mood microservice
             moodResponses = webClient.get()
-                    .uri("http://"+userServiceBaseUrl+"/api/mood/user/" + userId)
+                    .uri("http://"+moodServiceBaseUrl+"/api/mood/user/" + userId)
                     .retrieve()
                     .bodyToFlux(MoodResponse.class)
                     .collectList()
