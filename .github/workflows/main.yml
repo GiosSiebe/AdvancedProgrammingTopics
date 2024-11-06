@@ -3,11 +3,11 @@ name: Build and Deliver Containers
 on:
   push:
     branches:
-      - main  # Adjust this based on your branch
+      - main  # Pas dit aan op basis van je branch
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual trigger of the workflow
+  workflow_dispatch:  # Hiermee kun je de workflow handmatig starten
 
 jobs:
   # ActivityService build, test, and Docker deployment
@@ -26,7 +26,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: ActivityService  # Correct directory name
+        working-directory: ActivityService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -54,14 +54,14 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: MoodService  # Correct directory name
+        working-directory: MoodServicee  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_NAME }}/mood-service:latest ./MoodService
+        run: docker build -t ${{ secrets.DOCKER_NAME }}/mood-service:latest ./MoodServicee
 
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_NAME }}/mood-service:latest
@@ -82,7 +82,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: RecommendationService  # Correct directory name
+        working-directory: RecommendationService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -110,7 +110,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: UserService  # Correct directory name
+        working-directory: UserService  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -138,7 +138,7 @@ jobs:
           distribution: adopt
 
       - name: Build, test and package project
-        working-directory: api-gateway  # Correct directory name
+        working-directory: api-gateway  # Correcte directory naam
         run: mvn clean package -DskipTests
 
       - name: Docker login
@@ -150,8 +150,7 @@ jobs:
       - name: Upload container to Docker Hub with Push
         run: docker push ${{ secrets.DOCKER_NAME }}/api-gateway:latest
 
-  # Frontend build, test, and Docker deployment
-  frontend:
+   frontend:
     runs-on: ubuntu-latest
     name: Build, test, and deliver frontend container
     steps:
