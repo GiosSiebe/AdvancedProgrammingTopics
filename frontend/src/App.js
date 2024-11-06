@@ -52,12 +52,17 @@ function App() {
     try {
       setError(null);  // Clear any previous errors
 
+<<<<<<< HEAD
       // Fetch all users from the API
       const usersResponse = await axios.get("http://localhost:8085/api/user", {
         headers: {
           Authorization: `Bearer ${accessToken}`,  // Use the access token for authenticated requests
         },
       });
+=======
+      // Step 1: Fetch all users from the API
+      const usersResponse = await axios.get("http://localhost:8085/api/user");
+>>>>>>> fc120068a8c8eaae87a6b749709d0e48eff95577
       const users = usersResponse.data;
 
       // Find the user ID by matching the username
@@ -112,6 +117,7 @@ function App() {
       {/* Form Section */}
       <div className="md:w-1/2 flex flex-col justify-center p-8 bg-white shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Get Activity Recommendations</h2>
+<<<<<<< HEAD
         {!accessToken ? (
           <button
             onClick={authenticateWithGoogle}
@@ -139,6 +145,24 @@ function App() {
             </button>
           </>
         )}
+=======
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your username"
+          />
+        </div>
+        <button
+          onClick={handleGetRecommendations}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg mt-4"
+        >
+          Get Recommendations
+        </button>
+>>>>>>> fc120068a8c8eaae87a6b749709d0e48eff95577
       </div>
 
       {/* Recommendations Section */}
