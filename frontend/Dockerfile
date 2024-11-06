@@ -1,26 +1,28 @@
-# Use the official Node.js image as the base image
+# Dockerfile for React app
 FROM node:18
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
+# Copy package.json and install dependencies
+COPY package.json .
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the app's files
 COPY . .
 
-# Build the React app for production
+# Accept build arguments and set them as environment variables
+ARG REACT_APP_GOOGLE_OAUTH_CLIENT_ID
+ARG REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET
+
+ENV REACT_APP_GOOGLE_OAUTH_CLIENT_ID=$REACT_APP_GOOGLE_OAUTH_CLIENT_ID
+ENV REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET=$REACT_APP_GOOGLE_OAUTH_CLIENT_SECRET
+
+# Build the app
 RUN npm run build
 
-# Install serve to serve the build
-RUN npm install -g serve
-
-# Expose port 3000
+# Expose the build directory
 EXPOSE 3000
 
-# Command to run the application
-CMD ["serve", "-s", "build"]
+# Start the app
+CMD ["npm", "start"]
