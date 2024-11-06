@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mood-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mood-service
+  template:
+    metadata:
+      labels:
+        app: mood-service
+    spec:
+      containers:
+        - name: mood-service
+          image: siebegios/mood-service
+          env:
+            - name: MONGO_DB_HOST
+              value: mongo-mood
+            - name: MONGO_DB_PORT
+              value: "27017"
+          ports:
+            - containerPort: 8080

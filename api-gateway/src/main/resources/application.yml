@@ -22,9 +22,18 @@ spring:
         jwt:
           issuer-uri: https://accounts.google.com
           jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
   cloud:
     gateway:
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+              replenishRate: 10          # Number of requests per second allowed
+              burstCapacity: 20          # Max number of requests allowed in a burst
       routes:
         # Recommendation Service
         - id: recommendation-service

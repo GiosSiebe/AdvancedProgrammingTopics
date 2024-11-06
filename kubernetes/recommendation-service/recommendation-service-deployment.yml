@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendation-service
+  template:
+    metadata:
+      labels:
+        app: recommendation-service
+    spec:
+      containers:
+        - name: recommendation-service
+          image: siebegios/recommendation-service
+          env:
+            - name: MYSQL_DB_USERNAME
+              value: root
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-recommendation-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DB_HOST
+              value: mysql-recommendation
+            - name: MYSQL_DB_PORT
+              value: "3306"
+            - name: ACTIVITY_SERVICE_BASEURL
+              value: activity-service:8082
+            - name: MOOD_SERVICE_BASEURL
+              value: mood-service:8080
+            - name: USER_SERVICE_BASEURL
+              value: user-service:8083
+          ports:
+            - containerPort: 8081

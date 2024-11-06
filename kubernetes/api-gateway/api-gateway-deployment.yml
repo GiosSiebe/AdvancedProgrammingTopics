@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: siebegios/api-gateway
+          env:
+            - name: RECOMMENDATION_SERVICE_BASEURL
+              value: recommendation-service:8081
+            - name: MOOD_SERVICE_BASEURL
+              value: mood-service:8080
+            - name: ACTIVITY_SERVICE_BASEURL
+              value: activity-service:8082
+            - name: USER_SERVICE_BASEURL
+              value: user-service:8083
+          ports:
+            - containerPort: 8085
