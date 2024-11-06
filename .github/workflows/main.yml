@@ -1,13 +1,7 @@
 name: Build and Deliver Containers
 
-on:
-  push:
-    branches:
-      - main  # Pas dit aan op basis van je branch
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:  # Hiermee kun je de workflow handmatig starten
+on: push
+
 
 jobs:
   # ActivityService build, test, and Docker deployment
