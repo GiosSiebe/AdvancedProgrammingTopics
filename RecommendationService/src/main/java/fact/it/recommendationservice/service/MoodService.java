@@ -1,6 +1,7 @@
 package fact.it.recommendationservice.service;
 
 import fact.it.recommendationservice.dto.MoodResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,16 +10,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MoodService {
-
     private final WebClient webClient;
 
     @Value("${moodservice.baseurl}")
     private String moodServiceBaseUrl;
-
-    public MoodService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://"+moodServiceBaseUrl+"/api/mood").build(); // Replace with the actual URL of the Mood service
-    }
 
     public List<MoodResponse> getAllMoodsByTimestamp(LocalDateTime timestamp) {
         return webClient.get()
