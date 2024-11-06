@@ -13,7 +13,7 @@ function App() {
       setError(null);  // Clear any previous errors
 
       // Step 1: Fetch all users from the API
-      const usersResponse = await axios.get("http://localhost:8083/api/user");
+      const usersResponse = await axios.get("http://localhost:8085/api/user");
       const users = usersResponse.data;
 
       // Step 2: Find the user ID by matching the username
@@ -52,16 +52,6 @@ function App() {
             onChange={(e) => setUsername(e.target.value)}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Enter your username"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Mood</label>
-          <input
-            type="text"
-            value={mood}
-            onChange={(e) => setMood(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter your mood"
           />
         </div>
         <button

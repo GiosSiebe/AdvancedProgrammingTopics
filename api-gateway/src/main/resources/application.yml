@@ -110,6 +110,14 @@ spring:
           filters:
             - SetPath=/api/user
 
+        - id: user-service-getuser
+          uri: http://${USER_SERVICE_BASEURL:localhost:8083}
+          predicates:
+            - Path=/api/user/{id}
+            - Method=GET
+          filters:
+            - SetPath=/api/user/{id}
+
         - id: user-service-post
           uri: http://${USER_SERVICE_BASEURL:localhost:8083}
           predicates:
