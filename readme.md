@@ -18,7 +18,29 @@ The project consists of the following microservices:
 - **Database**:
   - MongoDB: Used for storing user moods and activities.
   - MySQL: Used for storing user information and recommendations.
-- **API Gateway**: Acts as the entry point for clients to interact with the microservices.
+- **API Gateway**: All microservices interact through a Gateway configured with Spring Cloud Gateway. The gateway serves as a single entry point, handling load balancing, routing, and rate limiting.
+- ***Gateway configurations*** 
+  - Port: 8085
+  - Security: GCP OAuth2 for user authentication, JWT verification for access control.
+  - Redis Rate Limiter: Limits requests to prevent overloading with a replenish rate of 10 requests/second and a burst capacity of 20.
+
+| Service         | Method | Path                       | URI                                                   |
+|-----------------|--------|----------------------------|-------------------------------------------------------|
+| Recommendation  | GET    | /api/recommendations/{userid} | http://${RECOMMENDATION_SERVICE_BASEURL:localhost:8081} |
+| Mood            | GET    | /api/mood                  | http://${MOOD_SERVICE_BASEURL:localhost:8080}         |
+|                 | POST   | /api/mood                  | http://${MOOD_SERVICE_BASEURL:localhost:8080}         |
+|                 | PUT    | /api/mood/{id}             | http://${MOOD_SERVICE_BASEURL:localhost:8080}         |
+|                 | DELETE | /api/mood/{id}             | http://${MOOD_SERVICE_BASEURL:localhost:8080}         |
+| Activity        | GET    | /api/activity              | http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}     |
+|                 | POST   | /api/activity              | http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}     |
+|                 | PUT    | /api/activity/{id}         | http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}     |
+|                 | DELETE | /api/activity/{id}         | http://${ACTIVITY_SERVICE_BASEURL:localhost:8082}     |
+| User            | GET    | /api/user                  | http://${USER_SERVICE_BASEURL:localhost:8083}         |
+|                 | GET    | /api/user/{id}             | http://${USER_SERVICE_BASEURL:localhost:8083}         |
+|                 | POST   | /api/user                  | http://${USER_SERVICE_BASEURL:localhost:8083}         |
+|                 | PUT    | /api/user/{id}             | http://${USER_SERVICE_BASEURL:localhost:8083}         |
+|                 | DELETE | /api/user/{id}             | http://${USER_SERVICE_BASEURL:localhost:8083}         |
+
 - **Authentication**: Implemented using GCP OAuth2 to secure endpoints.
 
 ## API Endpoints
@@ -53,6 +75,9 @@ The Recommendation Service interacts with both the Mood and Activity Services to
 - **Docker**: Each microservice is containerized using Docker.
 - **Docker Compose**: Manages the deployment of all services as a single application stack.
 - **GitHub Actions**: Automates the build and deployment process of Docker containers.
+- **Deploymenet Scheme**:
+![Deployment Scheme](deployment-schema.png)
+
 
 ### Screenshots of Endpoints
 All API endpoints were tested using Postman. Below are some example requests demonstrating the functionality:
