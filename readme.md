@@ -76,15 +76,27 @@ The Recommendation Service interacts with the Mood, User and Activity Services t
 - **Kubernetes**: Kubernetes .yml files to run in Kubernetes (not completely working)
 - **GitHub Actions**: Automates the build and deployment process of Docker containers.
 - **Deployment Scheme**:
-![Deployment Scheme](deployment-schema.png)
+![Deployment Scheme](./images/deployment-schema.png)
 
 
 ### Screenshots of Endpoints
 All API endpoints were tested using Postman. Below are some example requests demonstrating the functionality:
 
-- **Get Recommendations**: ![Get Recommendations](get-recommendations.png)
-- **Authorization**: ![Authorization](authorization.png)
-- **Frontend**: ![Frontend](frontend.png)
+- **Get Recommendations**: ![Get Recommendations](./images/get-recommendations.png)
+- **Authorization**: ![Authorization](./images/authorization.png)
+- **Frontend**: ![Frontend](./images/frontend.png)
+- **GET** `/api/user`: ![Get API User](./images/apiuserget.png)
+- **POST** `/api/user`: ![Post API User](./images/apiuserpost.png)
+- **PUT** `/api/user/{id}`: ![Put API User](./images/apiuserput.png)
+- **DELETE** `/api/user/{id}`: ![Delete API User](./images/apiuserdelete.png)
+- **GET** `/api/mood`: ![Get API mood](./images/apimoodget.png)
+- **POST** `/api/mood`: ![Post API mood](./images/apimoodpost.png)
+- **PUT** `/api/mood/{id}`: ![Put API mood](./images/apimoodput.png)
+- **DELETE** `/api/mood/{id}`: ![Delete API mood](./images/apimooddelete.png)
+- **GET** `/api/acitivty`: ![Get API Activity](./images/apiactivityget.png)
+- **POST** `/api/acitivty`: ![Post API Activity](./images/apiactivitypost.png)
+- **PUT** `/api/acitivty/{id}`:  ![Put API Activity](./images/apiactivityput.png)
+- **DELETE** `/api/acitivty/{id}`:  ![Delete API Activity](./images/apiactivitydelete.png)
 
 ## Technical Choices
 
@@ -94,7 +106,6 @@ All API endpoints were tested using Postman. Below are some example requests dem
 ## Additional Features
 
 - **Frontend Application**: Developed a user-friendly interface that allows users to manage their moods and activities, seamlessly interacting with the backend. (not fully working)
-![Get All Moods](link-to-screenshot)
 - **User Authentication**: Secure user login implemented via OAuth2, ensuring that sensitive user data is protected.
 
 ## Testing
