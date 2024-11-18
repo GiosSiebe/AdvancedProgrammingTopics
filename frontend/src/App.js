@@ -55,9 +55,23 @@ function App() {
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Recommendations</h2>
         <div className="bg-white p-6 rounded-lg shadow-lg h-64 overflow-y-auto">
           {recommendations ? (
-            <pre className="text-gray-700">
-              {JSON.stringify(recommendations, null, 2)}
-            </pre>
+            <ul className="space-y-4">
+              {recommendations.map((rec, index) => (
+                <li key={index} className="bg-gray-50 p-4 rounded-lg shadow-md">
+                  <h3 className="text-lg font-bold text-gray-700">{rec.activity.activity}</h3>
+                  <p className="text-sm text-gray-600">{rec.activity.description}</p>
+                  <p className="text-sm text-gray-500">
+                    <strong>Category:</strong> {rec.activity.category}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    <strong>Duration:</strong> {rec.activity.duration} minutes
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    <strong>Energy Level:</strong> {rec.activity.energyLevelRequired}
+                  </p>
+                </li>
+              ))}
+            </ul>
           ) : error ? (
             <p className="text-red-500">{error}</p>
           ) : (
