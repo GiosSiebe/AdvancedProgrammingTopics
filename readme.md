@@ -105,8 +105,8 @@ All API endpoints were tested using Postman. Below are some example requests dem
 
 ## Additional Features
 
-- **Frontend Application**: Developed a user-friendly interface that allows users to manage their moods and activities, seamlessly interacting with the backend. (not fully working)
-- **User Authentication**: Secure user login implemented via OAuth2, ensuring that sensitive user data is protected.
+- **Frontend Application**: Developed a user-friendly interface that allows users to manage their moods and activities, seamlessly interacting with the backend. Looks cool but API call isn't working. Runs in container through github actions. (not fully working)
+- **Kubernetes**: Kubernetes .yml files to run the stack in Kubernetes. Runs in Kuberentes, but not fully functioning.
 
 ## Testing
 
