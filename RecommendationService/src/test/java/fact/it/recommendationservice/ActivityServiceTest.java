@@ -4,78 +4,111 @@ import fact.it.recommendationservice.dto.ActivityResponse;
 import fact.it.recommendationservice.service.ActivityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.RequestHeadersUriSpec;
-import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class ActivityServiceTest {
+
+    @InjectMocks
+    private ActivityService activityService;
 
     @Mock
     private WebClient webClient;
 
     @Mock
-    private WebClient.Builder webClientBuilder; // Mock the WebClient builder
+    private WebClient.RequestHeadersUriSpec requestHeadersUriSpec;
 
     @Mock
-    private RequestHeadersUriSpec requestHeadersUriSpec;
+    private WebClient.RequestHeadersSpec requestHeadersSpec;
 
     @Mock
-    private RequestHeadersSpec requestHeadersSpec;
-
-    @Mock
-    private ResponseSpec responseSpec;
-
-    @InjectMocks
-    private ActivityService activityService;
+    private WebClient.ResponseSpec responseSpec;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(activityService, "activityServiceBaseUrl", "localhost:8081");
+    }
 
-        // Mock the WebClient behavior
-        when(webClientBuilder.build()).thenReturn(webClient);
+    @Test
+    public void testGetAllActivities_Success() {
+        // Arrange
+        ActivityResponse[] mockActivities = {
+                new ActivityResponse(1L, "Running", "Outdoor running activity", "Sports", 30, "High"),
+                new ActivityResponse(2L, "Reading", "Indoor reading activity", "Leisure", 60, "Low")
+        };
+
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
+        when(responseSpec.bodyToMono(ActivityResponse[].class)).thenReturn(Mono.just(mockActivities));
+
+        // Act
+        List<ActivityResponse> result = activityService.getAllActivities();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Running", result.get(0).getActivity());
+        assertEquals("Reading", result.get(1).getActivity());
+
+        verify(webClient, times(1)).get();
     }
 
     @Test
-    void testGetAllActivities() {
-        // Mock the WebClient behavior
-        ActivityResponse activity1 = new ActivityResponse(); // Initialize with your properties
-        ActivityResponse activity2 = new ActivityResponse(); // Initialize with your properties
-        ActivityResponse[] mockActivities = {activity1, activity2};
+    public void testFindByCategory_Success() {
+        // Arrange
+        String category = "Sports";
+        ActivityResponse[] mockActivities = {
+                new ActivityResponse(1L, "Running", "Outdoor running activity", category, 30, "High"),
+                new ActivityResponse(2L, "Cycling", "Outdoor cycling activity", category, 60, "Medium")
+        };
 
+        when(webClient.get()).thenReturn(requestHeadersUriSpec);
+        when(requestHeadersUriSpec.uri(anyString(), eq(category))).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(ActivityResponse[].class)).thenReturn(Mono.just(mockActivities));
 
-        List<ActivityResponse> activities = activityService.getAllActivities();
+        // Act
+        List<ActivityResponse> result = activityService.findByCategory(category);
 
-        assertEquals(2, activities.size());
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Running", result.get(0).getActivity());
+        assertEquals("Cycling", result.get(1).getActivity());
+
+        verify(webClient, times(1)).get();
     }
 
     @Test
-    void testFindByCategory() {
-        // Mock the WebClient behavior
-        ActivityResponse activity = new ActivityResponse(); // Initialize with your properties
-        ActivityResponse[] mockActivities = {activity};
+    public void testGetAllActivities_EmptyResult() {
+        // Arrange
+        ActivityResponse[] mockActivities = {};
 
-        when(requestHeadersUriSpec.uri(anyString(), anyString())).thenReturn(requestHeadersSpec);
+        when(webClient.get()).thenReturn(requestHeadersUriSpec);
+        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(ActivityResponse[].class)).thenReturn(Mono.just(mockActivities));
 
-        List<ActivityResponse> activities = activityService.findByCategory("someCategory");
+        // Act
+        List<ActivityResponse> result = activityService.getAllActivities();
 
-        assertEquals(1, activities.size());
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
+        verify(webClient, times(1)).get();
     }
 }
