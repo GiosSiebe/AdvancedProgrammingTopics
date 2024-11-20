@@ -118,7 +118,7 @@ Through the development of this project, I gained valuable insights into microse
 
 ## Live Demo
 
-A demo video showcasing the project’s structure, functionality, and frontend interaction is available here: [Demo Video](link-to-demo-video).
+A demo video showcasing the project’s structure, functionality, and frontend interaction is available here: [Demo Video](https://youtu.be/KwR-Qb-i5JM).
 
 ## Repository
 
